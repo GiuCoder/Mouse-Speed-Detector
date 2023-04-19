@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Speed Test</title>
+    <style>
+      body {
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
+
+      #test-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 100px);
+      }
+
+      #start-button {
+        padding: 20px 30px;
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      #start-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      #instructions {
+        margin: 20px auto;
+        max-width: 600px;
+        text-align: left;
+      }
+
+      #instructions p {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      #instructions ol {
+        margin-left: 30px;
+      }
+
+      #instructions li {
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="test-area">
+      <button id="start-button">Start Test</button>
+    </div>
+    <div id="instructions">
+      <p>Instructions:</p>
+      <ol>
+        <li>Set your mouse sensitivity to the lowest setting.</li>
+        <li>Move your mouse all the way to the left of your screen.</li>
+        <li>Click the Start Test button.</li>
+        <li>Move your mouse all the way to the right of your screen.</li>
+        <li>Wait for the test to finish.</li>
+        <li>Read your results.</li>
+      </ol>
+    </div>
+    <script>
+      const testArea = document.getElementById("test-area");
+      const startButton = document.getElementById("start-button");
+      const instructions = document.getElementById("instructions");
+      let startTime;
+
+      function startTest() {
+        instructions.style.display = "none";
+        testArea.innerHTML = "";
+        testArea.addEventListener("mousemove", endTest);
+        startTime = new Date();
+      }
+
+      function endTest() {
+        const endTime = new Date();
+        const timeDiff = endTime - startTime;
+        const screenWidth = window.innerWidth;
+        const mouseSpeed = screenWidth / timeDiff;
+        testArea.innerHTML = `Your mouse speed is: ${mouseSpeed.toFixed(
+          2
+        )} pixels/ms`;
+        testArea.removeEventListener("mousemove", endTest);
+      }
+
+      startButton.addEventListener("click", startTest);
+    </script>
+  </body>
+</html>
